@@ -17,8 +17,9 @@ class MerchantFactory extends Factory
     public function definition()
     {
         return [
-            'domain' => $this->faker->domainName(),
-            'display_name' => $this->faker->name()
+            'user_id' => $this->faker->numberBetween(1,10),
+            'domain' => $this->faker->unique()->domainName(),
+            'display_name' => $this->faker->name(),
         ];
     }
 }

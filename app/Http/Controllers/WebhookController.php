@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class WebhookController extends Controller
 {
+
     public function __construct(
         protected OrderService $orderService
     ) {}
@@ -21,6 +22,14 @@ class WebhookController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        // TODO: Complete this method
+
+            $data = $request->all();
+
+            // Call the processOrder method of the OrderService
+            $this->orderService->processOrder($data);
+
+            // You can customize the response based on the outcome of the processOrder method
+            return response()->json(['message' => 'Order processed successfully'], 200);
+
     }
 }

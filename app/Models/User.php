@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 /**
  * @property int $id
@@ -67,4 +68,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(Affiliate::class);
     }
+
 }

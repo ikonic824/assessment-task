@@ -26,7 +26,8 @@ class Order extends Model
         'subtotal',
         'commission_owed',
         'payout_status',
-        'customer_email',
+        'discount_code',
+        'external_order_id',
         'created_at'
     ];
 

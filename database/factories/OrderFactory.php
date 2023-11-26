@@ -17,6 +17,7 @@ class OrderFactory extends Factory
     public function definition()
     {
         return [
+            'merchant_id' =>$this->faker->numberBetween(1,10),
             'subtotal' => $subtotal = round(rand(100, 999) / 3, 2),
             'commission_owed' => round($subtotal * 0.1, 2),
         ];

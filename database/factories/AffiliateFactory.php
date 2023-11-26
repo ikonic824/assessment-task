@@ -17,6 +17,8 @@ class AffiliateFactory extends Factory
     public function definition()
     {
         return [
+             'user_id'=>$this->faker->numberBetween(1,10),
+             'merchant_id'=>$this->faker->numberBetween(1,10),
             'discount_code' => $this->faker->uuid(),
             'commission_rate' => round(rand(1, 5) / 10, 1)
         ];
