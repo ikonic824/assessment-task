@@ -7,6 +7,7 @@ use App\Models\Affiliate;
 use App\Models\Merchant;
 use App\Models\Order;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class MerchantService
 {
@@ -20,7 +21,22 @@ class MerchantService
      */
     public function register(array $data): Merchant
     {
-        // TODO: Complete this method
+
+        $user = User::create([
+                'email' => $data['email'],
+                'name' => $data['name'],
+                'password' => $data['api_key'],
+                'type' => User::TYPE_MERCHANT,
+        ]);
+
+
+        $merchant = Merchant::create([
+                'domain' => $data['domain'],
+                'display_name' => $data['name'],
+                'user_id' =>  $user->id,
+        ]);
+
+        return $merchant;
     }
 
     /**
@@ -31,7 +47,15 @@ class MerchantService
      */
     public function updateMerchant(User $user, array $data)
     {
-        // TODO: Complete this method
+        $user->update([
+                'email' => $data['email'],
+                'password' => Hash::make($data['api_key']),
+        ]);
+
+        $user->merchant->update([
+                'domain' => $data['domain'],
+                'display_name' => $data['name'],
+        ]);
     }
 
     /**
@@ -43,7 +67,9 @@ class MerchantService
      */
     public function findMerchantByEmail(string $email): ?Merchant
     {
-        // TODO: Complete this method
+        $user = User::where('email', $email)->first();
+
+        return $user ? $user->merchant : null;
     }
 
     /**
@@ -55,6 +81,10 @@ class MerchantService
      */
     public function payout(Affiliate $affiliate)
     {
-        // TODO: Complete this method
+        $unpaidOrders = $affiliate->orders()->where('payout_status', Order::STATUS_UNPAID)->get();
+
+        foreach ($unpaidOrders as $order) {
+            PayoutOrderJob::dispatch($order);
+        }
     }
 }
