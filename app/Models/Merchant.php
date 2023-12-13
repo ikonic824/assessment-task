@@ -20,6 +20,7 @@ class Merchant extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'domain',
         'display_name',
         'turn_customers_into_affiliates',
